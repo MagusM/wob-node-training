@@ -7,9 +7,13 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const uuid = require('uuid/v4');
 const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const login = require('./routes/login');
 
 const app = express();
 
@@ -33,10 +37,37 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+const user = {id: 111, username:"hh77",email:"sss@gmail.comm",password:"afadfadfadfadf"};
+passport.serializeUser((user, done) => {
+  console.log('serializeUser');
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  console.log('deserializeUser');
+  done(null, user);
+});
+passport.use(
+  new LocalStrategy(
+    {usernameField: 'email'},
+    (email, password, done) => {
+      console.log(`LocalStrategy ${email} ${password}`);
+       //... find the user by email in DB for example
+      // if(!user || user.password !== password) {
+      //   return done(null, false);
+      // }
+      
+      return done(null, user);
+    }
+  )
+);
 
 // routing
 app.use('/', index);
 app.use('/users', users);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
