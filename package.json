@@ -1,0 +1,22 @@
+{
+  "name": "generated",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon -r dotenv/config --ignore sessions/ ./bin/www",
+    "startProd": "PORT=3000 nodemon -r dotenv/config --ignore sessions/ ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^6.1.0",
+    "ejs": "~2.5.7",
+    "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5",
+    "session-file-store": "^1.2.0",
+    "uuid": "^3.3.2"
+  }
+}
